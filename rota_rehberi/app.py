@@ -3,39 +3,18 @@ import pandas as pd
 import pydeck as pdk
 import os
 
-# 1. Sayfa ve Harita Ayarları 🎨
+# 1. Sayfa ve Harita Ayarları
 st.set_page_config(page_title="Bolu Rota Rehberi", layout="wide")
 pdk.settings.map_provider = "carto"
 
-# 2. Koordinat Bazlı Durak Verileri (Navigasyon sapmasını engeller) 📍
+# 2. Veri Seti
 duraklar = [
-    {
-        "isim": "Şehir Oteli", 
-        "enlem": 40.7325, "boylam": 31.6082, 
-        "foto": "otel.jpg", "sure": "Başlangıç", "mod": "Yaya 🚶", 
-        "aktivite": "Konaklama ve Bilgilendirme"
-    },
-    {
-        "isim": "Gölcük Tabiat Parkı", 
-        "enlem": 40.6552, "boylam": 31.6255, 
-        "foto": "golcuk_bolu.jpg", "sure": "20 dk", "mod": "Eko-Otobüs 🚌", 
-        "aktivite": "Doğa Yürüyüşü ve Rekreasyon"
-    },
-    {
-        "isim": "Sarıalan Yaylası", 
-        "enlem": 40.6120, "boylam": 31.6500, 
-        "foto": "sarialan.jpg", "sure": "15 dk", "mod": "Minibüs 🚐", 
-        "aktivite": "Yayla Gastronomisi"
-    },
-    {
-        "isim": "Aladağ Yaylaları", 
-        "enlem": 40.5850, "boylam": 31.6350, 
-        "foto": "aladag.jpg", "sure": "10 dk", "mod": "Bisiklet 🚲", 
-        "aktivite": "Kamp ve Macera Turizmi"
-    }
+    {"isim": "Şehir Oteli", "enlem": 40.7325, "boylam": 31.6082, "foto": "otel.jpg", "sure": "Başlangıç", "mod": "Yaya 🚶", "aktivite": "Konaklama ve Bilgilendirme"},
+    {"isim": "Gölcük Tabiat Parkı", "enlem": 40.6552, "boylam": 31.6255, "foto": "golcuk_bolu.jpg", "sure": "20 dk", "mod": "Eko-Otobüs 🚌", "aktivite": "Doğa Yürüyüşü"},
+    {"isim": "Sarıalan Yaylası", "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan.jpg", "sure": "15 dk", "mod": "Minibüs 🚐", "aktivite": "Yayla Gastronomisi"},
+    {"isim": "Aladağ Yaylaları", "enlem": 40.5850, "boylam": 31.6350, "foto": "aladag.jpg", "sure": "10 dk", "mod": "Bisiklet 🚲", "aktivite": "Kamp ve Macera Turizmi"}
 ]
 
-# Google Haritalar Tur Rotası Linki (Sıralı Koordinatlar) 🗺️
 nav_link = "https://www.google.com/maps/dir/40.7325,31.6082/40.6552,31.6255/40.6120,31.6500/40.5850,31.6350"
 
 # 3. Giriş Kontrolü
@@ -43,7 +22,6 @@ if 'giris_yapildi' not in st.session_state:
     st.session_state.giris_yapildi = False
 
 if not st.session_state.giris_yapildi:
-    # Karşılama Ekranı
     st.markdown("<br><br><br>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
@@ -53,18 +31,17 @@ if not st.session_state.giris_yapildi:
             st.session_state.giris_yapildi = True
             st.rerun()
 else:
-    # 4. Ana Panel ve Harita Görselleştirmesi 🗺️
+    # 4. Ana Panel
     st.title("📍 Ekolojik Koridor Tur Rotası")
     
-    # Güvenli Navigasyon Butonu (Üç tırnak ile hata önlendi)
-    nav_button_html = f"""
-    <a href="{nav_link}" target="_blank" style="text-decoration:none;">
-        <div style="background-color:#D32F2F; color:white; padding:12px; border-radius:8px; text-align:center; font-weight:bold; cursor:pointer; margin-bottom:20px;">
-            🚗 GERÇEK TUR ROTASINI BAŞLAT (NAVİGASYON)
-        </div>
-    </a>
-    """
-    st.sidebar.markdown(nav_button_html, unsafe_allow_html=True)
+    # Navigasyon Butonu
+    st.sidebar.markdown(f"""
+        <a href="{nav_link}" target="_blank" style="text-decoration:none;">
+            <div style="background-color:#D32F2F; color:white; padding:12px; border-radius:8px; text-align:center; font-weight:bold; cursor:pointer; margin-bottom:20px;">
+                 TUR ROTASINI BAŞLAT
+            </div>
+        </a>
+    """, unsafe_allow_html=True)
     
     if st.sidebar.button("⬅️ Giriş Ekranına Dön"):
         st.session_state.giris_yapildi = False
@@ -74,44 +51,24 @@ else:
     df = pd.DataFrame(duraklar)
     yol_noktalari = [[d["boylam"], d["enlem"]] for d in duraklar]
     
-    path_layer = pdk.Layer(
-        "PathLayer", 
-        pd.DataFrame([{"path": yol_noktalari}]), 
-        get_path="path", 
-        get_color=[211, 47, 47, 200], 
-        width_scale=20, 
-        width_min_pixels=3
-    )
-    
-    point_layer = pdk.Layer(
-        "ScatterplotLayer", 
-        df, 
-        get_position="[boylam, enlem]", 
-        get_color=[46, 125, 50], 
-        get_radius=250,
-        pickable=True
-    )
+    path_layer = pdk.Layer("PathLayer", pd.DataFrame([{"path": yol_noktalari}]), get_path="path", get_color=[211, 47, 47, 200], width_scale=20, width_min_pixels=3)
+    point_layer = pdk.Layer("ScatterplotLayer", df, get_position="[boylam, enlem]", get_color=[46, 125, 50], get_radius=250, pickable=True)
 
+    # Tooltip hatasını gidermek için sadeleştirdik
     st.pydeck_chart(pdk.Deck(
         map_style="light", 
         initial_view_state=pdk.ViewState(latitude=40.66, longitude=31.62, zoom=10.5), 
         layers=[path_layer, point_layer],
-        tooltip={{"html": "<b>{{isim}}</b>"}}
+        tooltip={"text": "{isim}"} 
     ))
 
-    # 5. Durak Detayları (Görseller ve Veriler) 📸
+    # 5. Durak Detayları
     st.markdown("---")
     for d in duraklar:
         with st.expander(f"📍 {d['isim']} Detayları", expanded=True):
             col_img, col_txt = st.columns([1, 1.5])
             with col_img:
-                # Fotoğrafı doğrudan ismiyle çağırıyoruz
-                if os.path.exists(d['foto']):
-                    st.image(d['foto'], use_container_width=True)
-                else:
-                    st.warning(f"🖼️ {d['foto']} dosyası bulunamadı. Lütfen dosya ismini kontrol edin.")
-            with col_txt:
-                st.subheader(d['isim'])
-                st.write(f"⏱️ **Süre:** {d['sure']}")
-                st.write(f"🚌 **Mod:** {d['mod']}")
-                st.write(f"🎭 **Aktivite:** {d['aktivite']}")
+                # Görseli en garanti yoldan (absolute path) bulmaya çalışıyoruz
+                # Dosya ana dizinde (app.py ile aynı yerde) ise:
+                img_path = os.path.join(os.getcwd(), "rota_rehberi", d['foto'])
+                if not os.path.exists
