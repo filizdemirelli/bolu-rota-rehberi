@@ -45,8 +45,6 @@ else:
     st.sidebar.markdown("---")
     st.sidebar.write("🛣️ **Gerçek Yol Navigasyonu**")
     st.sidebar.markdown(f'<a href="{rotalar[rota_secimi]["navigasyon_linki"]}" target="_blank" style="text-decoration: none;"><button style="width: 100%; cursor: pointer; background-color: #2E7D32; color: white; border: none; padding: 10px; border-radius: 5px;">NAVİGASYONU BAŞLAT</button></a>', unsafe_allow_html=True)
-    st.sidebar.info("Bu buton jüriye gerçek zamanlı ulaşım verisini kanıtlamak içindir.")
-
     # 4. Estetik Rota Çizgisi (Path)
     # Bu noktalar yolları biraz daha kavisli takip edecek şekilde artırıldı
     yol_noktalari = [
@@ -102,3 +100,4 @@ else:
             with col2:
                 st.write(f"**Ulaşım:** {durak['ulasim']} | **Süre:** {durak['sure']}")
                 st.write(f"**Aktivite:** {durak['aktivite']}")
+
