@@ -59,14 +59,20 @@ else:
 
     st.pydeck_chart(pdk.Deck(map_style="light", initial_view_state=pdk.ViewState(latitude=40.66, longitude=31.63, zoom=11), layers=[layer_path, layer_points]))
 
-    # Durak Detayları
+    # --- DURAK DETAYLARI (GÜNCELLENDİ) ---
     st.markdown("### 📸 Durak Detayları")
     for durak in rotalar[rota_secimi]["duraklar"]:
-        with st.expander(f"📍 {durak['isim']}"):
+        with st.expander(f"📍 {durak['isim']}", expanded=True):
             col1, col2 = st.columns([1, 1.5])
             with col1:
-                if os.path.exists(durak["foto"]): st.image(durak["foto"], use_container_width=True)
-                else: st.warning(f"🖼️ {durak['foto']} bulunamadı.")
+                # GitHub ve Streamlit Cloud için en güvenli yol budur:
+                foto_adi = durak['foto']
+                if os.path.exists(foto_adi):
+                    st.image(foto_adi, use_container_width=True)
+                elif os.path.exists(f"./{foto_adi}"):
+                    st.image(f"./{foto_adi}", use_container_width=True)
+                else:
+                    st.warning(f"🖼️ {foto_adi} dosyası sunucuda bulunamadı. Lütfen GitHub klasörünü kontrol et.")
             with col2:
                 st.write(f"**Ulaşım:** {durak['ulasim']} | **Süre:** {durak['sure']}")
                 st.write(f"**Aktivite:** {durak['aktivite']}")
