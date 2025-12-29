@@ -2,36 +2,47 @@ import streamlit as st
 import pandas as pd
 import pydeck as pdk
 import os
+from pathlib import Path
 
-# 1. Sayfa Ayarları
+# 1. Klasör Yolunu Sabitleme (Görsel Sorunu Çözümü)
+# Bu satır, uygulamanın çalıştığı klasörü kesin olarak belirler
+BASE_DIR = Path(__file__).parent
+
+# 2. Sayfa ve Harita Ayarları
 st.set_page_config(page_title="Bolu Rota Rehberi", layout="wide")
 pdk.settings.map_provider = "carto"
 
-# 2. Veri Seti
+# 3. Veri Seti
 duraklar = [
-    {"isim": "Şehir Oteli", "enlem": 40.7325, "boylam": 31.6082, "foto": "otel.jpg", "sure": "0 dk", "mod": "Yaya 🚶", "aktivite": "Konaklama"},
-    {"isim": "Gölcük Tabiat Parkı", "enlem": 40.6552, "boylam": 31.6255, "foto": "golcuk_bolu.jpg", "sure": "20 dk", "mod": "Otobüs 🚌", "aktivite": "Doğa Yürüyüşü"},
+    {"isim": "Şehir Oteli", "enlem": 40.7325, "boylam": 31.6082, "foto": "otel.jpg", "sure": "Başlangıç", "mod": "Yaya 🚶", "aktivite": "Konaklama"},
+    {"isim": "Gölcük Tabiat Parkı", "enlem": 40.6552, "boylam": 31.6255, "foto": "golcuk_bolu.jpg", "sure": "20 dk", "mod": "Eko-Otobüs 🚌", "aktivite": "Doğa Yürüyüşü"},
     {"isim": "Sarıalan Yaylası", "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan.jpg", "sure": "15 dk", "mod": "Minibüs 🚐", "aktivite": "Gastronomi"},
-    {"isim": "Aladağ Yaylaları", "enlem": 40.5850, "boylam": 31.6350, "foto": "aladag.jpg", "sure": "10 dk", "mod": "Bisiklet 🚲", "aktivite": "Kamp ve Macera"}
+    {"isim": "Aladağ Yaylaları", "enlem": 40.5850, "boylam": 31.6350, "foto": "aladag.jpg", "sure": "10 dk", "mod": "Bisiklet 🚲", "aktivite": "Macera"}
 ]
 
-# Google Maps Rota Linki (Koordinatlarla)
+# Koordinat Bazlı Navigasyon Linki
 nav_link = "https://www.google.com/maps/dir/40.7325,31.6082/40.6552,31.6255/40.6120,31.6500/40.5850,31.6350"
 
-# 3. Giriş Sistemi
+# 4. Giriş Sistemi
 if 'giris' not in st.session_state:
     st.session_state.giris = False
 
 if not st.session_state.giris:
     st.title("🌲 Bolu Ekolojik Rota Rehberi")
-    if st.button("KEŞFETMEYE BAŞLA"):
+    if st.button("KEŞFETMEYE BAŞLA", use_container_width=True):
         st.session_state.giris = True
         st.rerun()
 else:
-    # 4. Ana Panel
-    st.sidebar.markdown(f'<a href="{nav_link}" target="_blank" style="text-decoration:none;"><button style="width:100%; background-color:#D32F2F; color:white; border:none; padding:12px; border-radius:8px; font-weight:bold; cursor:pointer;">🚗 NAVİGASYONU BAŞLAT</button></a>', unsafe_allow_html=True)
+    # 5. Ana Panel ve Navigasyon
+    st.sidebar.markdown(f"""
+        <a href="{nav_link}" target="_blank" style="text-decoration:none;">
+            <div style="background-color:#D32F2F; color:white; padding:15px; border-radius:10px; text-align:center; font-weight:bold; cursor:pointer;">
+                🚗 NAVİGASYONU BAŞLAT (TUR ROTASI)
+            </div>
+        </a>
+    """, unsafe_allow_html=True)
     
-    if st.sidebar.button("⬅️ Giriş Ekranına Dön"):
+    if st.sidebar.button("⬅️ Giriş Ekranına Dön", use_container_width=True):
         st.session_state.giris = False
         st.rerun()
 
@@ -51,17 +62,25 @@ else:
         tooltip={"text": "{isim}"}
     ))
 
-    # 5. Durak Detayları ve Görseller
+    # 6. Durak Detayları ve Kesin Görsel Çözümü
     st.markdown("---")
     for d in duraklar:
         with st.expander(f"📍 {d['isim']} Detayları", expanded=True):
             col1, col2 = st.columns([1, 1.5])
             with col1:
-                if os.path.exists(d['foto']):
-                    st.image(d['foto'], use_container_width=True)
+                # Görseli BASE_DIR kullanarak bul
+                foto_yolu = BASE_DIR / d['foto']
+                
+                if foto_yolu.exists():
+                    st.image(str(foto_yolu), use_container_width=True)
                 else:
-                    st.warning(f"🖼️ {d['foto']} bulunamadı.")
+                    # Alternatif: Doğrudan ismiyle dene (bazı Streamlit versiyonları için)
+                    try:
+                        st.image(d['foto'], use_container_width=True)
+                    except:
+                        st.error(f"🖼️ {d['foto']} bulunamadı. Lütfen GitHub'da dosya adını (küçük harf mi?) kontrol et.")
+            
             with col2:
                 st.subheader(d['isim'])
-                st.write(f"⏱️ **Süre:** {d['sure']} | 🚌 **Mod:** {d['mod']}")
+                st.info(f"⏱️ **Süre:** {d['sure']} | 🚌 **Ulaşım:** {d['mod']}")
                 st.write(f"🎭 **Aktivite:** {d['aktivite']}")
