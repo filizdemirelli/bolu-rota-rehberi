@@ -70,4 +70,5 @@ else:
         st.rerun()
 
     # Harita Çizimi 🗺️
-    df = pd.
+   df = pd.DataFrame(duraklar)
+
