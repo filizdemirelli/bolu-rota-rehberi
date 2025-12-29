@@ -37,7 +37,7 @@ else:
     st.sidebar.markdown(f"""
         <a href="{nav_link}" target="_blank" style="text-decoration:none;">
             <div style="background-color:#D32F2F; color:white; padding:15px; border-radius:10px; text-align:center; font-weight:bold; cursor:pointer;">
-                🚗 NAVİGASYONU BAŞLAT (TUR ROTASI)
+                NAVİGASYONU BAŞLAT
             </div>
         </a>
     """, unsafe_allow_html=True)
@@ -84,3 +84,4 @@ else:
                 st.subheader(d['isim'])
                 st.info(f"⏱️ **Süre:** {d['sure']} | 🚌 **Ulaşım:** {d['mod']}")
                 st.write(f"🎭 **Aktivite:** {d['aktivite']}")
+
