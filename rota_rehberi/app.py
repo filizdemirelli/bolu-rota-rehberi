@@ -36,7 +36,7 @@ else:
     st.markdown("---")
 
     # Veriler
-    rotalar = {
+   rotalar = {
         "Ekolojik Koridor": {
             "aciklama": "Bolu Merkez'den Karacasu üzerinden Gölcük ve yaylalara ulaşan rota.",
             "duraklar": [
@@ -76,3 +76,4 @@ else:
             with col2:
                 st.write(f"**Ulaşım:** {durak['ulasim']} | **Süre:** {durak['sure']}")
                 st.write(f"**Aktivite:** {durak['aktivite']}")
+
