@@ -8,40 +8,71 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent
 st.set_page_config(page_title="Bolu Rota Rehberi", layout="wide")
 
-# 2. Özel Tasarım ve Animasyon (CSS)
+# 2. Pastel Yeşil Tema ve Özel Tasarım (CSS)
 st.markdown("""
     <style>
+    /* Arka Plan Pastel Yeşil */
     .stApp {
-        background-color: #F8F9FA;
+        background-color: #E8F5E9;
         animation: fadeIn 1.2s ease-in;
     }
+    
+    /* Tüm Yazıları Siyah Yapma */
+    html, body, [class*="st-"] {
+        color: #000000 !important;
+    }
+
     @keyframes fadeIn {
         0% {opacity: 0;}
         100% {opacity: 1;}
     }
+
+    /* Yan Menü (Sidebar) Uygun Renk */
+    [data-testid="stSidebar"] {
+        background-color: #C8E6C9 !important;
+        border-right: 1px solid #A5D6A7;
+    }
+
+    /* Kartlar (Expander) Krem Rengi ve Siyah Yazı */
     .streamlit-expanderHeader {
-        background-color: white !important;
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
         border-radius: 8px !important;
-        border: 1px solid #E9ECEF !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
-        transition: transform 0.3s ease;
+        border: 1px solid #A5D6A7 !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
     }
-    .streamlit-expanderHeader:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.05) !important;
-    }
+    
+    /* Modern Siyah Buton */
     div.stButton > button {
-        background-color: #1E1E1E;
-        color: white;
-        border-radius: 4px;
+        background-color: #2E7D32;
+        color: white !important;
+        border-radius: 6px;
         padding: 12px 24px;
         font-weight: 600;
-        letter-spacing: 1px;
+        border: none;
+    }
+    
+    div.stButton > button:hover {
+        background-color: #1B5E20;
+        color: white !important;
+    }
+
+    /* Navigasyon Butonu */
+    .nav-btn {
+        background-color: #1B5E20;
+        color: white !important;
+        padding: 15px;
+        border-radius: 6px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        display: block;
+        border: 1px solid #000;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. EKSİKSİZ ROTA VERİLERİ (Reklam Dili ve Senaryo Odaklı)
+# 3. Eksiksiz Rota Verileri
 rotalar = {
     "EKOLOJİK KORİDOR (YAYLALAR)": [
         {
@@ -105,7 +136,7 @@ if not st.session_state.giris:
     st.markdown("<div style='text-align: center;'><br>", unsafe_allow_html=True)
     st.image("https://images.unsplash.com/photo-1590059393164-904c632616f9?q=80&w=1200", use_container_width=True)
     st.title("BOLU TEMATİK ROTA REHBERİ")
-    st.markdown("##### DOĞANIN KALBİNDE SİZE ÖZEL BİR DENEYİM TASARLADIK")
+    st.markdown("<h5 style='color: black;'>DOĞANIN KALBİNDE SİZE ÖZEL BİR DENEYİM TASARLADIK</h5>", unsafe_allow_html=True)
     if st.button("KEŞFETMEYE BAŞLA", use_container_width=True):
         st.session_state.giris = True
         st.rerun()
@@ -119,24 +150,19 @@ else:
     end = secilen_duraklar[-1]
     nav_url = f"https://www.google.com/maps/dir/{start['enlem']},{start['boylam']}/{end['enlem']},{end['boylam']}/"
 
-    st.sidebar.markdown(f"""
-        <a href="{nav_url}" target="_blank" style="text-decoration:none;">
-            <div style="background-color:#1E1E1E; color:white; padding:15px; border-radius:4px; text-align:center; font-weight:bold; letter-spacing:1px; border: 1px solid #444;">
-                NAVİGASYONU BAŞLAT
-            </div>
-        </a>
-    """, unsafe_allow_html=True)
+    st.sidebar.markdown(f'<a href="{nav_url}" target="_blank" class="nav-btn">NAVİGASYONU BAŞLAT</a>', unsafe_allow_html=True)
     
+    st.sidebar.markdown("<br>", unsafe_allow_html=True)
     if st.sidebar.button("GİRİŞ EKRANINA DÖN", use_container_width=True):
         st.session_state.giris = False
         st.rerun()
 
-    st.title(secilen_rota_adi)
+    st.markdown(f"<h1 style='color: black;'>{secilen_rota_adi}</h1>", unsafe_allow_html=True)
 
-    # 6. Harita (Pydeck)
+    # 6. Harita
     df = pd.DataFrame(secilen_duraklar)
     yol_noktalari = [[d["boylam"], d["enlem"]] for d in secilen_duraklar]
-    line_color = [0, 100, 255] if "KIŞ" in secilen_rota_adi else [34, 139, 34]
+    line_color = [30, 136, 229] if "KIŞ" in secilen_rota_adi else [46, 125, 50]
     
     path_layer = pdk.Layer("PathLayer", pd.DataFrame([{"path": yol_noktalari}]), get_path="path", get_color=line_color, width_scale=20, width_min_pixels=3)
     point_layer = pdk.Layer("ScatterplotLayer", df, get_position="[boylam, enlem]", get_color=line_color, get_radius=300, pickable=True)
@@ -163,6 +189,6 @@ else:
                     except:
                         st.info(f"GÖRSEL YÜKLENİYOR: {d['foto']}")
             with col2:
-                st.write(f"**ULAŞIM SÜRESİ:** {d['sure']}")
-                st.write(f"**ERİŞİM MODU:** {d['mod']}")
-                st.markdown(f"**DENEYİM:** {d['aktivite']}")
+                st.markdown(f"<p style='color: black;'><b>ULAŞIM SÜRESİ:</b> {d['sure']}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='color: black;'><b>ERİŞİM MODU:</b> {d['mod']}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='color: black;'><b>DENEYİM:</b> {d['aktivite']}</p>", unsafe_allow_html=True)
