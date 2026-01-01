@@ -12,15 +12,15 @@ except:
 
 BASE_DIR = Path(__file__).parent
 
-# 2. OKUNABİLİRLİK VE PASTEL TEMA (Gelişmiş CSS)
+# 2. GELİŞMİŞ TASARIM (Beyaz Yazılı Butonlar ve Pastel Tema)
 st.markdown("""
     <style>
-    /* Ana Arka Plan */
+    /* Ana Arka Plan ve Sidebar */
     .stApp, [data-testid="stSidebar"], .stSidebarNav {
         background-color: #E8F5E9 !important;
     }
 
-    /* Panel Başlıkları (Açık Yeşil) */
+    /* Panel Başlıkları (Gri Değil, Açık Yeşil) */
     .streamlit-expanderHeader {
         background-color: #C8E6C9 !important;
         color: #1B5E20 !important;
@@ -29,60 +29,56 @@ st.markdown("""
     }
     
     .streamlit-expanderContent {
-        background-color: #E8F5E9 !important;
+        background-color: #F1F8E9 !important;
         border: 1px solid #A5D6A7 !important;
     }
 
-    /* Yazılar */
+    /* Tüm Yazılar Koyu Yeşil */
     h1, h2, h3, h4, h5, h6, p, span, label, li {
         color: #1B5E20 !important;
     }
 
-    /* BUTONLARIN OKUNABİLİRLİĞİ (Keşfet ve Dön Butonları) */
+    /* KEŞFETMEYE BAŞLA BUTONU (Beyaz Yazı Garantili) */
     div.stButton > button {
-        background-color: #1B5E20 !important; /* Çok Koyu Yeşil */
-        color: #FFFFFF !important; /* Bembeyaz Yazı - Net Okunur */
+        background-color: #1B5E20 !important; /* Koyu Yeşil Arka Plan */
+        color: #FFFFFF !important; /* BEMBEYAZ YAZI */
         border-radius: 10px;
-        border: 2px solid #1B5E20;
-        padding: 12px 24px;
-        font-weight: bold;
-        font-size: 18px !important;
-        transition: 0.3s;
+        padding: 15px 30px;
+        font-weight: 800 !important;
+        font-size: 20px !important;
+        border: none;
+        width: 100%;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
     }
     
-    div.stButton > button:hover {
-        background-color: #2E7D32 !important;
-        color: white !important;
-        border-color: #2E7D32;
-    }
-
-    /* Sidebar İçindeki Buton Özel Ayarı */
+    /* Sidebar'daki Geri Dön Butonu */
     section[data-testid="stSidebar"] div.stButton > button {
         background-color: #FFFFFF !important;
         color: #1B5E20 !important;
         font-size: 14px !important;
+        padding: 5px 10px;
+        border: 1px solid #1B5E20;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Güncellenmiş Rota Verileri (Kuzey Rotası Eklendi)
+# 3. Rota Verileri (Kuzeye Doğru Yedigöller Odaklı)
 rotalar = {
-    "KUZEY MACERA VE KAMP": [
-        {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "4x4 / KAMP KARAVANI", "aktivite": "Kuzeyin derin ormanlarına yolculuk için hazırlık ve lojistik nokta."},
-        {"isim": "YEDİGÖLLER YOLU", "enlem": 40.8500, "boylam": 31.7000, "foto": "yedigoller_yol.jpg", "sure": "45 DK", "mod": "ARAÇ", "aktivite": "Sisli orman yollarında sürüş keyfi ve yol üstü seyir terasları."},
-        {"isim": "ALADAĞ KAMP ALANI", "enlem": 40.9500, "boylam": 31.8000, "foto": "aladag_kamp.jpg", "sure": "30 DK", "mod": "PİYADE / BİSİKLET", "aktivite": "Deneyim odaklı çadır kampı, gece ateşi ve vahşi doğa gözlemi."},
-        {"isim": "KUZEY ZİRVE NOKTASI", "enlem": 41.0500, "boylam": 31.8500, "foto": "zirve.jpg", "sure": "20 DK", "mod": "TREKKING", "aktivite": "Bolu'nun en kuzeyinde panoramik manzara eşliğinde final."}
+    "KUZEY ORMANLARI VE YEDİGÖLLER": [
+        {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "ARAÇ / VIP", "aktivite": "Kuzeyin derinliklerine doğru yolculuk hazırlığı."},
+        {"isim": "YAZIÖREN YAYLASI", "enlem": 40.8200, "boylam": 31.6500, "foto": "yazioren.jpg", "sure": "25 DK", "mod": "OFF-ROAD / ARAÇ", "aktivite": "Kuzey rotasının ilk durağı, çam ormanları arasında temiz hava molası."},
+        {"isim": "AYI KAYASI MEVKİİ", "enlem": 40.8800, "boylam": 31.7200, "foto": "ayikayasi.jpg", "sure": "20 DK", "mod": "YÜRÜYÜŞ", "aktivite": "Deneyim odaklı doğa gözlemi ve vahşi yaşam izleri takibi."},
+        {"isim": "YEDİGÖLLER MİLLİ PARKI", "enlem": 40.9415, "boylam": 31.7483, "foto": "yedigoller.jpg", "sure": "30 DK", "mod": "KAMP", "aktivite": "Rotanın finali: 7 gölün etrafında eşsiz kamp ve fotoğraf deneyimi."}
     ],
-    "EKOLOJİK KORİDOR (YAYLALAR)": [
-        {"isim": "ŞEHİR OTELİ", "enlem": 40.7325, "boylam": 31.6082, "foto": "otel.jpg", "sure": "BAŞLANGIÇ", "mod": "YAYA", "aktivite": "Şehir konforundan doğaya ilk adım."},
-        {"isim": "GÖLCÜK TABİAT PARKI", "enlem": 40.6552, "boylam": 31.6255, "foto": "golcuk_bolu.jpg", "sure": "20 DK", "mod": "ELEKTRİKLİ OTOBÜS", "aktivite": "Huzur ve doğa yürüyüşü."},
-        {"isim": "SARIALAN YAYLASI", "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan.jpg", "sure": "15 DK", "mod": "MİNİBÜS", "aktivite": "Gastronomi ve yerel yaşam."},
-        {"isim": "ALADAĞ YAYLALARI", "enlem": 40.5850, "boylam": 31.6350, "foto": "aladag.jpg", "sure": "10 DK", "mod": "BİSİKLET", "aktivite": "Kamp ve macera."}
+    "GÜNEY EKOLOJİK KORİDOR (YAYLALAR)": [
+        {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "ARAÇ", "aktivite": "Güney yaylalarına geçiş noktası."},
+        {"isim": "GÖLCÜK TABİAT PARKI", "enlem": 40.6552, "boylam": 31.6255, "foto": "golcuk_bolu.jpg", "sure": "20 DK", "mod": "ELEKTRİKLİ OTOBÜS", "aktivite": "Göl etrafında huzurlu bir yürüyüş."},
+        {"isim": "SARIALAN YAYLASI", "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan.jpg", "sure": "15 DK", "mod": "ARAÇ", "aktivite": "Yayla kültürü ve yöresel lezzetler."},
+        {"isim": "ALADAĞ YAYLALARI", "enlem": 40.5850, "boylam": 31.6350, "foto": "aladag.jpg", "sure": "10 DK", "mod": "BİSİKLET", "aktivite": "Güneyin en yükseklerinde kamp keyfi."}
     ],
     "KIŞ TURİZMİ (KARTALKAYA)": [
-        {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "VIP TRANSFER", "aktivite": "Kış rotası başlangıcı."},
-        {"isim": "KINDIRA YAYLASI", "enlem": 40.6850, "boylam": 31.7550, "foto": "kindira.jpg", "sure": "25 DK", "mod": "4x4 ARAÇ", "aktivite": "Karlar altında kahvaltı."},
-        {"isim": "KARTALKAYA", "enlem": 40.6010, "boylam": 31.7950, "foto": "kartalkaya.jpg", "sure": "20 DK", "mod": "KAR ARACI", "aktivite": "Kayak ve zirve keyfi."}
+        {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "VIP TRANSFER", "aktivite": "Kış masalı rotası."},
+        {"isim": "KARTALKAYA KAYAK MERKEZİ", "enlem": 40.6010, "boylam": 31.7950, "foto": "kartalkaya.jpg", "sure": "45 DK", "mod": "KAR ARACI", "aktivite": "Zirvede kayak ve kış sporları."}
     ]
 }
 
@@ -100,6 +96,7 @@ if not st.session_state.giris:
     
     st.title("BOLU TEMATİK ROTA REHBERİ")
     st.write("Doğanın kalbinde size özel bir deneyim tasarladık.")
+    # Buton yazısı artık b-e-y-a-z!
     if st.button("KEŞFETMEYE BAŞLA", use_container_width=True):
         st.session_state.giris = True
         st.rerun()
@@ -109,23 +106,24 @@ else:
     secilen_rota = st.sidebar.selectbox("BİR DENEYİM SEÇİN", list(rotalar.keys()))
     duraklar = rotalar[secilen_rota]
     
-    # Buton artık beyaz zemin üzerine koyu yeşil yazı, çok net!
     if st.sidebar.button("← GİRİŞ EKRANINA DÖN"):
         st.session_state.giris = False
         st.rerun()
 
     st.title(secilen_rota)
 
-    # 5. Harita
+    # 5. Harita Ayarı
     df = pd.DataFrame(duraklar)
-    line_color = [30, 136, 229] if "KIŞ" in secilen_rota else [46, 125, 50]
+    # Haritayı rota merkezine odakla
+    mid_lat = df['enlem'].mean()
+    mid_lon = df['boylam'].mean()
     
     st.pydeck_chart(pdk.Deck(
         map_style="light",
-        initial_view_state=pdk.ViewState(latitude=40.80, longitude=31.70, zoom=9),
+        initial_view_state=pdk.ViewState(latitude=mid_lat, longitude=mid_lon, zoom=10),
         layers=[
-            pdk.Layer("PathLayer", pd.DataFrame([{"path": [[d["boylam"], d["enlem"]] for d in duraklar]}]), get_path="path", get_color=line_color, width_scale=20, width_min_pixels=3),
-            pdk.Layer("ScatterplotLayer", df, get_position="[boylam, enlem]", get_color=line_color, get_radius=400, pickable=True)
+            pdk.Layer("PathLayer", pd.DataFrame([{"path": [[d["boylam"], d["enlem"]] for d in duraklar]}]), get_path="path", get_color=[46, 125, 50], width_scale=20, width_min_pixels=3),
+            pdk.Layer("ScatterplotLayer", df, get_position="[boylam, enlem]", get_color=[27, 94, 32], get_radius=400, pickable=True)
         ],
         tooltip={"text": "{isim}"}
     ))
