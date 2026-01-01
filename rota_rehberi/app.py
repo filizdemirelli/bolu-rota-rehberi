@@ -1,4 +1,3 @@
-import streamlit as st
 import pandas as pd
 import pydeck as pdk
 import os
@@ -8,23 +7,29 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent
 st.set_page_config(page_title="Bolu Rota Rehberi", layout="wide")
 
-# 2. Tam Uyumlu Pastel Tasarım (CSS)
+# 2. Tam Uyumlu Pastel Tasarım ve Yazı Renkleri (CSS)
 st.markdown("""
     <style>
-    /* Arka Plan Pastel Yeşil */
+    /* Arka Plan ve Yan Menü: Pastel Yeşil */
     .stApp, section[data-testid="stSidebar"] {
         background-color: #E8F5E9 !important;
+        animation: fadeIn 1.5s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
     }
 
-    /* Yazı Renklerini Koyu Yeşil ve Siyah Yapma */
+    /* Yazı Renkleri: Pastel Yeşil ile Uyumlu Koyu Yeşil */
     h1, h2, h3, h4, h5, h6, p, span, label, li {
         color: #1B5E20 !important;
         font-weight: 500;
     }
 
-    /* Kartlar (Expander) */
+    /* Kartlar (Expander) Arka Plan ve Yazı Uyumu */
     .streamlit-expanderHeader {
-        background-color: #FFFFFF !important;
+        background-color: #E8F5E9 !important;
         color: #1B5E20 !important;
         border: 1px solid #A5D6A7 !important;
         border-radius: 8px !important;
@@ -32,18 +37,21 @@ st.markdown("""
     
     .streamlit-expanderContent {
         background-color: #F1F8E9 !important;
+        border: 1px solid #C8E6C9 !important;
     }
 
-    /* Butonlar */
+    /* Buton Tasarımları */
     div.stButton > button {
         background-color: #2E7D32 !important;
         color: white !important;
-        border-radius: 8px;
+        border-radius: 6px;
         font-weight: bold;
+        padding: 10px 20px;
         width: 100%;
+        border: none;
     }
 
-    /* Navigasyon Butonu */
+    /* Navigasyon Butonu (Sidebar) */
     .nav-btn-custom {
         display: block;
         padding: 15px;
@@ -51,29 +59,30 @@ st.markdown("""
         color: white !important;
         text-align: center;
         text-decoration: none;
-        border-radius: 8px;
+        border-radius: 6px;
         font-weight: bold;
+        margin-bottom: 10px;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Rota Verileri
+# 3. Eksiksiz Rota Verileri
 rotalar = {
     "EKOLOJİK KORİDOR (YAYLALAR)": [
-        {"isim": "ŞEHİR OTELİ", "enlem": 40.7325, "boylam": 31.6082, "foto": "otel.jpg", "sure": "BAŞLANGIÇ", "mod": "YAYA", "aktivite": "Şehrin kalbinde konforla buluşun."},
-        {"isim": "GÖLCÜK TABİAT PARKI", "enlem": 40.6552, "boylam": 31.6255, "foto": "golcuk_bolu.jpg", "sure": "20 DK", "mod": "ELEKTRİKLİ OTOBÜS", "aktivite": "Doğanın sessizliğini dinleyin."},
-        {"isim": "SARIALAN YAYLASI", "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan.jpg", "sure": "15 DK", "mod": "MİNİBÜS", "aktivite": "Geleneksel yayla lezzetlerini deneyimleyin."},
-        {"isim": "ALADAĞ YAYLALARI", "enlem": 40.5850, "boylam": 31.6350, "foto": "aladag.jpg", "sure": "10 DK", "mod": "BİSİKLET", "aktivite": "Yıldızlar altında kamp deneyimi."}
+        {"isim": "ŞEHİR OTELİ", "enlem": 40.7325, "boylam": 31.6082, "foto": "otel.jpg", "sure": "BAŞLANGIÇ", "mod": "YAYA", "aktivite": "Şehrin kalbinde, konforun ve modernizmin buluştuğu noktada keşfe hazırlanın. Yolculuğunuz Bolu misafirperverliği ile başlıyor."},
+        {"isim": "GÖLCÜK TABİAT PARKI", "enlem": 40.6552, "boylam": 31.6255, "foto": "golcuk_bolu.jpg", "sure": "20 DK", "mod": "ELEKTRİKLİ OTOBÜS", "aktivite": "Yansımaların büyüsüne kapılacağınız bu durakta doğanın sessizliğini dinleyin. Kartpostallık manzaralar sizi bekliyor."},
+        {"isim": "SARIALAN YAYLASI", "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan.jpg", "sure": "15 DK", "mod": "MİNİBÜS", "aktivite": "Yerel lezzetlerin izini sürerken, geleneksel yayla yaşamının modern sunumuna tanıklık edin. Organik bir mola noktası."},
+        {"isim": "ALADAĞ YAYLALARI", "enlem": 40.5850, "boylam": 31.6350, "foto": "aladag.jpg", "sure": "10 DK", "mod": "BİSİKLET", "aktivite": "Sınırları zorlayan bir macera ve yıldızlar altında kusursuz bir kamp deneyimi. Doğanın tam merkezinde özgürlüğü hissedin."}
     ],
     "KIŞ TURİZMİ (KARTALKAYA)": [
-        {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "VIP TRANSFER", "aktivite": "Kış masalı için hazırlık noktası."},
-        {"isim": "KINDIRA YAYLASI", "enlem": 40.6850, "boylam": 31.7550, "foto": "kindira.jpg", "sure": "25 DK", "mod": "4x4 ARAÇ", "aktivite": "Soba başında otantik kahvaltı."},
-        {"isim": "SARIALAN (KIŞ SENARYOSU)", "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan_kis.jpg", "sure": "15 DK", "mod": "4x4 ARAÇ", "aktivite": "Bembeyaz bir kış rüyası fotoğrafçılığı."},
-        {"isim": "KARTALKAYA KAYAK MERKEZİ", "enlem": 40.6010, "boylam": 31.7950, "foto": "kartalkaya.jpg", "sure": "20 DK", "mod": "KAR ARACI", "aktivite": "Zirvede kayak keyfi ve lüks konaklama."}
+        {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "VIP TRANSFER", "aktivite": "Bolu'nun kış masalı için stratejik bir başlangıç noktası. Ekipman kontrolü ve kış senaryosuna dair son hazırlıklar."},
+        {"isim": "KINDIRA YAYLASI", "enlem": 40.6850, "boylam": 31.7550, "foto": "kindira.jpg", "sure": "25 DK", "mod": "4x4 ARAÇ", "aktivite": "Karlar altında saklı bir köy kahvaltısı ile güne otantik bir başlangıç yapın. Soba başında kışın sıcak yüzünü görün."},
+        {"isim": "SARIALAN (KIŞ SENARYOSU)", "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan_kis.jpg", "sure": "15 DK", "mod": "4x4 ARAÇ", "aktivite": "Bembeyaz bir tuval üzerinde kış estetiğini ölümsüzleştireceğiniz fotoğraf rotası. Donmuş göletler arasında bir kış rüyası."},
+        {"isim": "KARTALKAYA KAYAK MERKEZİ", "enlem": 40.6010, "boylam": 31.7950, "foto": "kartalkaya.jpg", "sure": "20 DK", "mod": "KAR ARACI", "aktivite": "Zirvede adrenalin ve lüksün buluştuğu noktada kış sporlarının keyfini sürün. Pistlerin sonunda şömine keyfi sizi bekliyor."}
     ]
 }
 
-# 4. Giriş Ekranı
+# 4. Giriş Sistemi
 if 'giris' not in st.session_state:
     st.session_state.giris = False
 
@@ -81,11 +90,12 @@ if not st.session_state.giris:
     # GİRİŞTE YEDİGÖLLER GÖRSELİ
     st.image("https://images.unsplash.com/photo-1570737197686-3974274c7d83?q=80&w=1200", use_container_width=True)
     st.title("BOLU TEMATİK ROTA REHBERİ")
-    if st.button("KEŞFETMEYE BAŞLA"):
+    st.markdown("##### DOĞANIN KALBİNDE SİZE ÖZEL BİR DENEYİM TASARLADIK")
+    if st.button("KEŞFETMEYE BAŞLA", use_container_width=True):
         st.session_state.giris = True
         st.rerun()
 else:
-    # 5. Ana Panel
+    # 5. Yan Menü
     st.sidebar.title("MENÜ")
     secilen_rota_adi = st.sidebar.selectbox("BİR DENEYİM SEÇİN", list(rotalar.keys()))
     secilen_duraklar = rotalar[secilen_rota_adi]
@@ -95,7 +105,7 @@ else:
 
     st.sidebar.markdown(f'<a href="{nav_url}" target="_blank" class="nav-btn-custom">NAVİGASYONU BAŞLAT</a>', unsafe_allow_html=True)
     
-    if st.sidebar.button("GİRİŞ EKRANINA DÖN"):
+    if st.sidebar.button("GİRİŞ EKRANINA DÖN", use_container_width=True):
         st.session_state.giris = False
         st.rerun()
 
@@ -116,7 +126,7 @@ else:
         tooltip={"text": "{isim}"}
     ))
 
-    # 7. Detaylar
+    # 7. Detay Kartları
     st.markdown("---")
     for d in secilen_duraklar:
         with st.expander(d['isim'], expanded=True):
@@ -126,8 +136,11 @@ else:
                 if foto_yolu.exists():
                     st.image(str(foto_yolu), use_container_width=True)
                 else:
-                    st.info(f"Görsel Yükleniyor: {d['foto']}")
+                    try:
+                        st.image(d['foto'], use_container_width=True)
+                    except:
+                        st.info(f"Görsel Yükleniyor: {d['foto']}")
             with col2:
-                st.write(f"**ULAŞIM:** {d['mod']}")
-                st.write(f"**SÜRE:** {d['sure']}")
-                st.write(f"**DENEYİM:** {d['aktivite']}")
+                st.write(f"**ULAŞIM SÜRESİ:** {d['sure']}")
+                st.write(f"**ERİŞİM MODU:** {d['mod']}")
+                st.markdown(f"**DENEYİM:** {d['aktivite']}")
