@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).parent
 # 2. PREMIUM CSS: BEYAZ YAZI VE PASTEL YEŞİL DENGESİ
 st.markdown("""
     <style>
-    /* Ana Arka Plan */
+    /* Arka Plan */
     .stApp, [data-testid="stSidebar"], .stSidebarNav {
         background-color: #E8F5E9 !important;
     }
@@ -28,7 +28,6 @@ st.markdown("""
         width: 100% !important;
         padding: 18px !important;
         box-shadow: 0px 6px 20px rgba(0,0,0,0.3) !important;
-        transition: all 0.3s ease;
     }
 
     /* Buton Yazılarını Beyaza Zorla */
@@ -71,29 +70,31 @@ rotalar = {
         {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "VIP ARAÇ", 
          "aktivite": "Kuzeyin gizemli ormanlarına yolculuk için tüm hazırlıklar tamamlanıyor. Bolu'nun modern yüzünden doğanın kalbine uzanan köprünün ilk basamağı."},
         {"isim": "YAZIÖREN YAYLASI", "enlem": 40.8200, "boylam": 31.6500, "foto": "yazioren.jpg", "sure": "25 DK", "mod": "OFF-ROAD ARAÇ", 
-         "aktivite": "Kuzey rotasının ilk nefes durağı. Geleneksel yayla mimarisinin çam kokularıyla harmanlandığı, zamanın yavaş aktığı bir sığınak. Burada yerel halkın sunduğu taze bitki çaylarını deneyimleyebilirsiniz."},
+         "aktivite": "Kuzey rotasının ilk nefes durağı. Geleneksel yayla mimarisinin çam kokularıyla harmanlandığı, zamanın yavaş aktığı bir sığınak."},
         {"isim": "AYI KAYASI YAYLASI", "enlem": 40.8800, "boylam": 31.7200, "foto": "ayikayasi.jpg", "sure": "20 DK", "mod": "TREKKING / YÜRÜYÜŞ", 
-         "aktivite": "Yedigöller yolu üzerinde, vahşi yaşamın izlerini sürebileceğiniz sarp kayalıklar. Seyir terasından aşağı baktığınızda, Bolu'nun uçsuz bucaksız orman denizini tüm ihtişamıyla göreceksiniz."},
+         "aktivite": "Yedigöller yolu üzerinde, vahşi yaşamın izlerini sürebileceğiniz sarp kayalıklar. Seyir terasından Bolu'nun uçsuz bucaksız orman denizini görün."},
+        {"isim": "PİSİS YAYLASI", "enlem": 40.9100, "boylam": 31.7400, "foto": "pisis.jpg", "sure": "10 DK", "mod": "DOĞA YÜRÜYÜŞÜ", 
+         "aktivite": "Milli parkın kapı komşusu olan bu bakir yaylada, endemik bitki türlerini inceleyebilir ve su kaynaklarının doğallığına tanıklık edebilirsiniz."},
         {"isim": "YEDİGÖLLER MİLLİ PARKI", "enlem": 40.9415, "boylam": 31.7483, "foto": "yedigoller.jpg", "sure": "15 DK", "mod": "EKOLOJİK KAMP", 
-         "aktivite": "Büyükgöl, Sazlıgöl ve diğerleri... Doğanın en görkemli renk paletine sahip olan bu bölgede, kuş sesleri eşliğinde kamp kurup huzurun zirvesine ulaşacaksınız."}
+         "aktivite": "Doğanın en görkemli renk paletine sahip bu bölgede, kuş sesleri eşliğinde huzurun zirvesine ulaşacaksınız."}
     ],
     "KIŞ TURİZMİ (KARTALKAYA HATTI)": [
         {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "VIP TRANSFER", 
-         "aktivite": "Kar macerası için özel transfer araçlarımızla buluşma noktası. Soğuk havaya inat, sıcak bir karşılama ile kış masalı başlıyor."},
+         "aktivite": "Kar macerası için özel transfer araçlarımızla buluşma noktası. Kış masalı burada başlıyor."},
         {"isim": "KINDIRA KÖYÜ", "enlem": 40.6850, "boylam": 31.7550, "foto": "kindira.jpg", "sure": "25 DK", "mod": "4x4 KAR ARACI", 
-         "aktivite": "Karlar altında saklı bir cennet. Geleneksel köy evlerinde, yanan sobanın çıtırtısı eşliğinde, Bolu'nun meşhur ürünleriyle donatılmış bir köy kahvaltısı sizi bekliyor."},
+         "aktivite": "Geleneksel köy evlerinde, yanan sobanın çıtırtısı eşliğinde meşhur Bolu kahvaltısı sizi bekliyor."},
         {"isim": "SARIALAN YAYLASI (KIŞ)", "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan_kis.jpg", "sure": "15 DK", "mod": "4x4 KAR ARACI", 
-         "aktivite": "Donmuş göletlerin ve bembeyaz bir örtüyle kaplanan çam ağaçlarının yarattığı estetik şölen. Fotoğraf tutkunları için benzersiz kadrajlar sunan bir kış rüyası."},
+         "aktivite": "Donmuş göletlerin ve bembeyaz bir örtüyle kaplanan çam ağaçlarının yarattığı estetik şölen."},
         {"isim": "KARTALKAYA KAYAK MERKEZİ", "enlem": 40.6010, "boylam": 31.7950, "foto": "kartalkaya.jpg", "sure": "10 DK", "mod": "KAYAK / SNOWBOARD", 
-         "aktivite": "Köroğlu Dağları'nın zirvesinde, adrenalin ve lüksün buluştuğu nokta. Pistlerde geçen aktif bir günün ardından şömine başında günün yorgunluğunu atın."}
+         "aktivite": "Köroğlu Dağları'nın zirvesinde adrenalin ve lüksün buluştuğu nokta."}
     ],
     "GÜNEY EKOLOJİK KORİDOR (GÖLCÜK HATTI)": [
         {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "ELEKTRİKLİ ARAÇ", 
-         "aktivite": "Sürdürülebilir turizm ilkeleriyle hazırlanan rotamızda, doğaya en az iz bırakacak şekilde yolculuğumuza başlıyoruz."},
+         "aktivite": "Sürdürülebilir turizm ilkeleriyle doğaya en az iz bırakacak şekilde yolculuğumuza başlıyoruz."},
         {"isim": "GÖLCÜK TABİAT PARKI", "enlem": 40.6552, "boylam": 31.6255, "foto": "golcuk_bolu.jpg", "sure": "20 DK", "mod": "YÜRÜYÜŞ", 
-         "aktivite": "Bolu'nun kartpostalları süsleyen simge yapısı. Göl etrafında yapacağınız yürüyüşte her mevsim ayrı bir renk cümbüşüne tanıklık edecek, ciğerlerinize temiz hava dolduracaksınız."},
+         "aktivite": "Bolu'nun kartpostalları süsleyen simge yapısı. Göl etrafında huzurlu bir yürüyüş deneyimi."},
         {"isim": "ALADAĞ YAYLALARI", "enlem": 40.5850, "boylam": 31.6350, "foto": "aladag.jpg", "sure": "30 DK", "mod": "KAMP / BİSİKLET", 
-         "aktivite": "Derin vadiler ve yüksek platolar... Macera tutkunları için tasarlanan bu durakta, doğanın tam ortasında kamp kurup sessizliğin sesini dinleyeceksiniz."}
+         "aktivite": "Macera tutkunları için tasarlanan bu durakta, sessizliğin sesini dinleyeceksiniz."}
     ]
 }
 
@@ -102,14 +103,18 @@ if 'giris' not in st.session_state:
     st.session_state.giris = False
 
 if not st.session_state.giris:
-    # Giriş Görseli
-    giris_resmi = BASE_DIR / "yedigoller_yeni.jpg"
-    if giris_resmi.exists():
-        st.image(str(giris_resmi), use_container_width=True)
-    else:
-        st.image("https://images.unsplash.com/photo-1570737197686-3974274c7d83?q=80&w=1200", use_container_width=True)
+    # --- GÖRSEL BOYUTU KÜÇÜLTÜLDÜ (Width: 700 yapıldı) ---
+    col_img_1, col_img_2, col_img_3 = st.columns([1, 2, 1])
+    with col_img_2:
+        giris_resmi = BASE_DIR / "yedigoller_yeni.jpg"
+        if giris_resmi.exists():
+            st.image(str(giris_resmi), width=700)
+        else:
+            st.image("https://images.unsplash.com/photo-1570737197686-3974274c7d83?q=80&w=700", width=700)
     
-    st.title("BOLU TEMATİK ROTA REHBERİ")
+    st.markdown("<h1 style='text-align: center;'>BOLU TEMATİK ROTA REHBERİ</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; font-size: 18px;'>Doğanın kalbinde size özel bir deneyim tasarladık.</p>", unsafe_allow_html=True)
+    
     if st.button("KEŞFETMEYE BAŞLA", use_container_width=True):
         st.session_state.giris = True
         st.rerun()
@@ -156,4 +161,3 @@ else:
                 st.write(f"**ULAŞIM MODU:** {d['mod']}")
                 st.write(f"**TAHMİNİ SÜRE:** {d['sure']}")
                 st.write(f"**DENEYİM DETAYI:** {d['aktivite']}")
-
