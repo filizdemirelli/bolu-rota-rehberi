@@ -11,64 +11,89 @@ st.set_page_config(page_title="Bolu Rota Rehberi", layout="wide")
 # 2. Özel Tasarım ve Animasyon (CSS)
 st.markdown("""
     <style>
-    /* Arka Plan ve Genel Geçişler */
     .stApp {
         background-color: #F8F9FA;
-        animation: fadeIn 1.5s ease-in;
+        animation: fadeIn 1.2s ease-in;
     }
-    
     @keyframes fadeIn {
         0% {opacity: 0;}
         100% {opacity: 1;}
     }
-
-    /* Kart Tasarımları (Expander) */
     .streamlit-expanderHeader {
         background-color: white !important;
         border-radius: 8px !important;
         border: 1px solid #E9ECEF !important;
         box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
-        font-weight: bold !important;
         transition: transform 0.3s ease;
     }
-    
     .streamlit-expanderHeader:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0,0,0,0.05) !important;
     }
-
-    /* Modern Buton Tasarımı */
     div.stButton > button {
         background-color: #1E1E1E;
         color: white;
         border-radius: 4px;
-        border: none;
         padding: 12px 24px;
-        transition: all 0.3s ease;
         font-weight: 600;
         letter-spacing: 1px;
-    }
-    
-    div.stButton > button:hover {
-        background-color: #333333;
-        transform: scale(1.01);
     }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Rota Verileri
+# 3. EKSİKSİZ ROTA VERİLERİ (Reklam Dili ve Senaryo Odaklı)
 rotalar = {
     "EKOLOJİK KORİDOR (YAYLALAR)": [
-        {"isim": "ŞEHİR OTELİ", "enlem": 40.7325, "boylam": 31.6082, "foto": "otel.jpg", "sure": "BAŞLANGIÇ", "mod": "YAYA", "aktivite": "Şehrin kalbinde, konforun ve modernizmin buluştuğu noktada keşfe hazırlanın."},
-        {"isim": "GÖLCÜK TABİAT PARKI", "enlem": 40.6552, "boylam": 31.6255, "foto": "golcuk_bolu.jpg", "sure": "20 DK", "mod": "ELEKTRİKLİ OTOBÜS", "aktivite": "Yansımaların büyüsüne kapılacağınız bu durakta, doğanın sessizliğini dinleyin."},
-        {"isim": "SARIALAN YAYLASI", "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan.jpg", "sure": "15 DK", "mod": "MİNİBÜS", "aktivite": "Yerel lezzetlerin izini sürerken, geleneksel yayla yaşamının modern sunumuna tanıklık edin."},
-        {"isim": "ALADAĞ YAYLALARI", "enlem": 40.5850, "boylam": 31.6350, "foto": "aladag.jpg", "sure": "10 DK", "mod": "BİSİKLET", "aktivite": "Sınırları zorlayan bir macera ve yıldızlar altında kusursuz bir kamp deneyimi sizi bekliyor."}
+        {
+            "isim": "ŞEHİR OTELİ", 
+            "enlem": 40.7325, "boylam": 31.6082, "foto": "otel.jpg", 
+            "sure": "BAŞLANGIÇ", "mod": "YAYA", 
+            "aktivite": "Şehrin kalbinde, konforun ve modernizmin buluştuğu noktada keşfe hazırlanın. Yolculuğunuzun ilk adımı, Bolu'nun misafirperverliği ile başlıyor."
+        },
+        {
+            "isim": "GÖLCÜK TABİAT PARKI", 
+            "enlem": 40.6552, "boylam": 31.6255, "foto": "golcuk_bolu.jpg", 
+            "sure": "20 DK", "mod": "ELEKTRİKLİ OTOBÜS", 
+            "aktivite": "Yansımaların büyüsüne kapılacağınız bu durakta, doğanın sessizliğini dinleyin. Kartpostallık manzaralar eşliğinde sürdürülebilir turizmin tadını çıkarın."
+        },
+        {
+            "isim": "SARIALAN YAYLASI", 
+            "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan.jpg", 
+            "sure": "15 DK", "mod": "MİNİBÜS", 
+            "aktivite": "Yerel lezzetlerin izini sürerken, geleneksel yayla yaşamının modern sunumuna tanıklık edin. Gastronomi durağımızda organik ürünlerle hazırlanan reçeteleri deneyimleyin."
+        },
+        {
+            "isim": "ALADAĞ YAYLALARI", 
+            "enlem": 40.5850, "boylam": 31.6350, "foto": "aladag.jpg", 
+            "sure": "10 DK", "mod": "BİSİKLET", 
+            "aktivite": "Sınırları zorlayan bir macera ve yıldızlar altında kusursuz bir kamp deneyimi sizi bekliyor. Doğanın tam merkezinde, dijital dünyadan uzaklaşıp kendinizi keşfedin."
+        }
     ],
     "KIŞ TURİZMİ (KARTALKAYA)": [
-        {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "VIP TRANSFER", "aktivite": "Bolu'nun kış masalı için stratejik bir başlangıç ve son hazırlık noktası."},
-        {"isim": "KINDIRA YAYLASI", "enlem": 40.6850, "boylam": 31.7550, "foto": "kindira.jpg", "sure": "25 DK", "mod": "4x4 ARAÇ", "aktivite": "Karlar altında saklı bir köy kahvaltısı ile güne enerjik ve otantik bir başlangıç yapın."},
-        {"isim": "SARIALAN (KIŞ SENARYOSU)", "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan_kis.jpg", "sure": "15 DK", "mod": "4x4 ARAÇ", "aktivite": "Bembeyaz bir tuval üzerinde, doğanın kış estetiğini ölümsüzleştireceğiniz fotoğraf rotası."},
-        {"isim": "KARTALKAYA KAYAK MERKEZİ", "enlem": 40.6010, "boylam": 31.7950, "foto": "kartalkaya.jpg", "sure": "20 DK", "mod": "KAR ARACI", "aktivite": "Zirvede adrenalin ve lüksün buluştuğu noktada, kış sporlarının keyfini sürün."}
+        {
+            "isim": "BOLU MERKEZ", 
+            "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", 
+            "sure": "BAŞLANGIÇ", "mod": "VIP TRANSFER", 
+            "aktivite": "Bolu'nun kış masalı için stratejik bir başlangıç noktası. Ekipman kontrolü ve kış senaryosuna dair son hazırlıklarımızı burada tamamlıyoruz."
+        },
+        {
+            "isim": "KINDIRA YAYLASI", 
+            "enlem": 40.6850, "boylam": 31.7550, "foto": "kindira.jpg", 
+            "sure": "25 DK", "mod": "4x4 ARAÇ", 
+            "aktivite": "Karlar altında saklı bir köy kahvaltısı ile güne enerjik ve otantik bir başlangıç yapın. Soba başında ısınırken köylülerin kış hikayelerine ortak olun."
+        },
+        {
+            "isim": "SARIALAN (KIŞ SENARYOSU)", 
+            "enlem": 40.6120, "boylam": 31.6500, "foto": "sarialan_kis.jpg", 
+            "sure": "15 DK", "mod": "4x4 ARAÇ", 
+            "aktivite": "Bembeyaz bir tuval üzerinde, doğanın kış estetiğini ölümsüzleştireceğiniz fotoğraf rotası. Donmuş göletler ve kar yüklü çam ağaçları arasında bir kış rüyası."
+        },
+        {
+            "isim": "KARTALKAYA KAYAK MERKEZİ", 
+            "enlem": 40.6010, "boylam": 31.7950, "foto": "kartalkaya.jpg", 
+            "sure": "20 DK", "mod": "KAR ARACI", 
+            "aktivite": "Zirvede adrenalin ve lüksün buluştuğu noktada, kış sporlarının keyfini sürün. Pistlerin sonunda şömine başında yorgunluk atarken gün batımını izleyin."
+        }
     ]
 }
 
@@ -81,7 +106,6 @@ if not st.session_state.giris:
     st.image("https://images.unsplash.com/photo-1590059393164-904c632616f9?q=80&w=1200", use_container_width=True)
     st.title("BOLU TEMATİK ROTA REHBERİ")
     st.markdown("##### DOĞANIN KALBİNDE SİZE ÖZEL BİR DENEYİM TASARLADIK")
-    
     if st.button("KEŞFETMEYE BAŞLA", use_container_width=True):
         st.session_state.giris = True
         st.rerun()
@@ -91,7 +115,6 @@ else:
     secilen_rota_adi = st.sidebar.selectbox("BİR DENEYİM SEÇİN", list(rotalar.keys()))
     secilen_duraklar = rotalar[secilen_rota_adi]
     
-    # Google Haritalar Yönlendirme
     start = secilen_duraklar[0]
     end = secilen_duraklar[-1]
     nav_url = f"https://www.google.com/maps/dir/{start['enlem']},{start['boylam']}/{end['enlem']},{end['boylam']}/"
@@ -104,7 +127,6 @@ else:
         </a>
     """, unsafe_allow_html=True)
     
-    st.sidebar.markdown("<br>", unsafe_allow_html=True)
     if st.sidebar.button("GİRİŞ EKRANINA DÖN", use_container_width=True):
         st.session_state.giris = False
         st.rerun()
@@ -139,7 +161,7 @@ else:
                     try:
                         st.image(d['foto'], use_container_width=True)
                     except:
-                        st.info(f"GÖRSEL HAZIRLANIYOR: {d['foto']}")
+                        st.info(f"GÖRSEL YÜKLENİYOR: {d['foto']}")
             with col2:
                 st.write(f"**ULAŞIM SÜRESİ:** {d['sure']}")
                 st.write(f"**ERİŞİM MODU:** {d['mod']}")
