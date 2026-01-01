@@ -8,27 +8,21 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent
 st.set_page_config(page_title="Bolu Rota Rehberi", layout="wide")
 
-# 2. RENK UYUMSUZLUĞUNU KÖKTEN ÇÖZEN CSS
-# Arka plan ve paneller için tek tip pastel yeşil: #E8F5E9
+# 2. RENK UYUMU VE PASTEL YEŞİL TASARIM (CSS)
 st.markdown("""
     <style>
-    /* Ana Arka Plan */
-    .stApp {
+    /* Ana Arka Plan ve Yan Menü Aynı Pastel Yeşil: #E8F5E9 */
+    .stApp, section[data-testid="stSidebar"] {
         background-color: #E8F5E9 !important;
     }
 
-    /* Yan Menü (Sidebar) */
-    section[data-testid="stSidebar"] {
-        background-color: #E8F5E9 !important;
-        border-right: 1px solid #C8E6C9;
-    }
-
-    /* Genişleyen Paneller (Expander) */
+    /* Açılır Paneller (Expander) Arka Planı ve Yazıları */
     .streamlit-expanderHeader {
         background-color: #E8F5E9 !important;
         color: #000000 !important;
         border: 1px solid #A5D6A7 !important;
         border-radius: 4px !important;
+        font-weight: bold !important;
     }
     
     .streamlit-expanderContent {
@@ -37,18 +31,12 @@ st.markdown("""
         border-top: none;
     }
 
-    /* Seçim Kutusu (Selectbox) ve Menüleri */
-    div[data-baseweb="select"] > div {
-        background-color: #FFFFFF !important;
-        color: #000000 !important;
-    }
-    
-    /* Tüm Yazı Renklerini Siyaha Zorla */
+    /* Tüm Yazıların Siyah Olması */
     h1, h2, h3, h4, h5, h6, p, span, label, li {
         color: #000000 !important;
     }
 
-    /* Butonlar (Hem siyah hem beyaz zeminde okunur beyaz yazı) */
+    /* Buton Tasarımları */
     div.stButton > button {
         background-color: #2E7D32 !important;
         color: #FFFFFF !important;
@@ -57,7 +45,7 @@ st.markdown("""
         font-weight: bold;
     }
 
-    /* Navigasyon Butonu Özelleştirme */
+    /* Navigasyon Butonu */
     .nav-btn {
         display: block;
         padding: 12px;
@@ -88,23 +76,24 @@ rotalar = {
     ]
 }
 
-# 4. Giriş Ekranı Kontrolü
+# 4. Giriş Sistemi
 if 'giris' not in st.session_state:
     st.session_state.giris = False
 
 if not st.session_state.giris:
-    st.image("https://images.unsplash.com/photo-1590059393164-904c632616f9?q=80&w=1200", use_container_width=True)
+    # YEDİGÖLLER GÖRSELİ (Giriş Ekranı)
+    st.image("https://images.unsplash.com/photo-1570737197686-3974274c7d83?q=80&w=1200", use_container_width=True)
     st.title("BOLU TEMATİK ROTA REHBERİ")
+    st.markdown("##### DOĞANIN KALBİNDE SİZE ÖZEL BİR DENEYİM TASARLADIK")
     if st.button("KEŞFETMEYE BAŞLA"):
         st.session_state.giris = True
         st.rerun()
 else:
-    # 5. Sidebar
+    # 5. Sidebar ve Navigasyon
     st.sidebar.title("MENÜ")
     secilen_rota_adi = st.sidebar.selectbox("BİR DENEYİM SEÇİN", list(rotalar.keys()))
     secilen_duraklar = rotalar[secilen_rota_adi]
     
-    # Navigasyon Linki
     start, end = secilen_duraklar[0], secilen_duraklar[-1]
     nav_url = f"https://www.google.com/maps/dir/{start['enlem']},{start['boylam']}/{end['enlem']},{end['boylam']}/"
 
@@ -137,7 +126,6 @@ else:
         with st.expander(d['isim'], expanded=True):
             c1, c2 = st.columns([1, 1.5])
             with c1:
-                # Fotoğraf yolu kontrolü
                 foto_yolu = BASE_DIR / d['foto']
                 if foto_yolu.exists():
                     st.image(str(foto_yolu), use_container_width=True)
