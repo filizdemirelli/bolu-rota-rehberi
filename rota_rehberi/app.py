@@ -74,8 +74,8 @@ rotalar = {
     "KUZEY ORMANLARI VE YEDİGÖLLER": [
         {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "VIP TRANSFER", "aktivite": "Kuzey ormanlarının derinliklerine uzanan serüven için hazırlık."},
         {"isim": "YAZIÖREN YAYLASI", "enlem": 40.8200, "boylam": 31.6500, "foto": "yazioren.jpg", "sure": "25 DK", "mod": "ARAÇ", "aktivite": "Kuzey rotasının ilk orman durağı ve temiz hava molası."},
-        {"isim": "AYI KAYASI MEVKİİ", "enlem": 40.8800, "boylam": 31.7200, "foto": "ayikayasi.jpg", "sure": "20 DK", "mod": "YÜRÜYÜŞ", "aktivite": "Yedigöller yolu üzerinde vahşi yaşam gözlemi ve seyir terası deneyimi."},
-        {"isim": "YEDİGÖLLER MİLLİ PARKI", "enlem": 40.9415, "boylam": 31.7483, "foto": "yedigoller.jpg", "sure": "30 DK", "mod": "KAMP", "aktivite": "Yedi gölün büyüleyici atmosferinde kamp ve fotoğrafçılık finali."}
+        {"isim": "AYI KAYASI MEVKİİ", "enlem": 40.8800, "boylam": 31.7200, "foto": "ayikayasi.jpg", "sure": "20 DK", "mod": "DOĞA YÜRÜYÜŞÜ", "aktivite": "Yedigöller yolu üzerinde vahşi yaşam gözlemi ve seyir terası deneyimi."},
+        {"isim": "YEDİGÖLLER MİLLİ PARKI", "enlem": 40.9415, "boylam": 31.7483, "foto": "yedigoller.jpg", "sure": "30 DK", "mod": "KAMP", "aktivite": "7 gölün büyüleyici atmosferinde kamp ve fotoğrafçılık finali."}
     ],
     "GÜNEY EKOLOJİK KORİDOR (YAYLALAR)": [
         {"isim": "BOLU MERKEZ", "enlem": 40.7350, "boylam": 31.6050, "foto": "merkez.jpg", "sure": "BAŞLANGIÇ", "mod": "ARAÇ", "aktivite": "Güney yaylalarına geçiş."},
@@ -149,4 +149,3 @@ else:
                 st.write(f"**ULAŞIM MODU:** {d['mod']}")
                 st.write(f"**SÜRE:** {d['sure']}")
                 st.markdown(f"**DENEYİM:** {d['aktivite']}")
-
