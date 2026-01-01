@@ -74,8 +74,6 @@ rotalar = {
          "aktivite": "Kuzey rotasının ilk nefes durağı. Geleneksel yayla mimarisinin çam kokularıyla harmanlandığı, zamanın yavaş aktığı bir sığınak. Burada yerel halkın sunduğu taze bitki çaylarını deneyimleyebilirsiniz."},
         {"isim": "AYI KAYASI YAYLASI", "enlem": 40.8800, "boylam": 31.7200, "foto": "ayikayasi.jpg", "sure": "20 DK", "mod": "TREKKING / YÜRÜYÜŞ", 
          "aktivite": "Yedigöller yolu üzerinde, vahşi yaşamın izlerini sürebileceğiniz sarp kayalıklar. Seyir terasından aşağı baktığınızda, Bolu'nun uçsuz bucaksız orman denizini tüm ihtişamıyla göreceksiniz."},
-        {"isim": "PİSİS YAYLASI", "enlem": 40.9100, "boylam": 31.7400, "foto": "pisis.jpg", "sure": "10 DK", "mod": "DOĞA YÜRÜYÜŞÜ", 
-         "aktivite": "Milli parkın kapı komşusu olan bu bakir yaylada, endemik bitki türlerini inceleyebilir ve su kaynaklarının doğallığına tanıklık edebilirsiniz."},
         {"isim": "YEDİGÖLLER MİLLİ PARKI", "enlem": 40.9415, "boylam": 31.7483, "foto": "yedigoller.jpg", "sure": "15 DK", "mod": "EKOLOJİK KAMP", 
          "aktivite": "Büyükgöl, Sazlıgöl ve diğerleri... Doğanın en görkemli renk paletine sahip olan bu bölgede, kuş sesleri eşliğinde kamp kurup huzurun zirvesine ulaşacaksınız."}
     ],
@@ -158,3 +156,4 @@ else:
                 st.write(f"**ULAŞIM MODU:** {d['mod']}")
                 st.write(f"**TAHMİNİ SÜRE:** {d['sure']}")
                 st.write(f"**DENEYİM DETAYI:** {d['aktivite']}")
+
